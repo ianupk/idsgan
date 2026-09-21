@@ -1,0 +1,38 @@
+# ── Python ──────────────────────────────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+.pytest_cache/
+
+# ── Virtual environment ──────────────────────────────────────────────────────
+venv/
+env/
+.venv/
+
+# ── Dataset (download separately with download_data.py) ─────────────────────
+data/KDDTrain+.txt
+data/KDDTest+.txt
+data/preprocessed*
+
+# ── Generated results ────────────────────────────────────────────────────────
+results/models/*.pkl
+results/models/*.pth
+results/figures/
+
+# ── IDE ──────────────────────────────────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# ── OS ───────────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+
+# ── Jupyter ──────────────────────────────────────────────────────────────────
+.ipynb_checkpoints/
