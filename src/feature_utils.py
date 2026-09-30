@@ -11,9 +11,7 @@ Defines:
 
 import numpy as np
 
-# ============================================================
 # 41 Feature Names (in order)
-# ============================================================
 FEATURE_NAMES = [
     # Intrinsic features (1-9)
     "duration", "protocol_type", "service", "flag", "src_bytes",
@@ -35,17 +33,13 @@ FEATURE_NAMES = [
     "dst_host_srv_rerror_rate",
 ]
 
-# ============================================================
 # Feature indices by set (0-indexed, raw features before encoding)
-# ============================================================
 INTRINSIC_INDICES = list(range(0, 9))      # Features 1-9
 CONTENT_INDICES = list(range(9, 22))       # Features 10-22
 TIME_BASED_INDICES = list(range(22, 31))   # Features 23-31
 HOST_BASED_INDICES = list(range(31, 41))   # Features 32-41
 
-# ============================================================
 # Categorical features (to be one-hot encoded)
-# ============================================================
 CATEGORICAL_FEATURES = {
     "protocol_type": {
         "index": 1,
@@ -78,9 +72,7 @@ CATEGORICAL_FEATURES = {
     },
 }
 
-# ============================================================
 # Binary features (0-indexed in raw features)
-# ============================================================
 BINARY_FEATURE_INDICES_RAW = [
     6,   # land
     11,  # logged_in
@@ -90,9 +82,7 @@ BINARY_FEATURE_INDICES_RAW = [
     21,  # is_guest_login
 ]
 
-# ============================================================
 # Attack type to category mapping
-# ============================================================
 ATTACK_TYPE_TO_CATEGORY = {
     # Normal
     "normal": "Normal",
@@ -115,7 +105,6 @@ ATTACK_TYPE_TO_CATEGORY = {
     "sendmail": "R2L", "snmpguess": "R2L", "worm": "R2L",
 }
 
-# ============================================================
 # Functional features per attack category (Table 1)
 #
 # From the paper:
@@ -128,7 +117,6 @@ ATTACK_TYPE_TO_CATEGORY = {
 #   DoS     |     ✓     |         |            |
 #   U2R     |     ✓     |    ✓    |            |
 #   R2L     |     ✓     |    ✓    |            |
-# ============================================================
 
 # Raw feature indices (0-indexed) that are FUNCTIONAL (unmodifiable)
 FUNCTIONAL_FEATURES_RAW = {

@@ -35,9 +35,7 @@ def main() -> None:
     print("  Training Black-Box IDS Models")
     print("=" * 60)
 
-    # ------------------------------------------------------------------
     # Data loading
-    # ------------------------------------------------------------------
     print("\nLoading and preprocessing data...")
     data = prepare_datasets()
 
@@ -47,9 +45,7 @@ def main() -> None:
     test_y           = data["test_y"]
     test_categories  = data["test_categories"]
 
-    # ------------------------------------------------------------------
     # Train each model
-    # ------------------------------------------------------------------
     overall_results: list[list] = []
     category_dr: dict[str, list[float]] = {g: [] for g in ATTACK_GROUPS}
 
@@ -88,9 +84,7 @@ def main() -> None:
         save_ids_model(model, model_name, save_path)
         print("done.")
 
-    # ------------------------------------------------------------------
     # Print results
-    # ------------------------------------------------------------------
     print("\n" + "=" * 60)
     print("  Overall IDS Model Performance")
     print("=" * 60)

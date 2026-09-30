@@ -43,10 +43,8 @@ from src.data_preprocessing import prepare_datasets
 from src.ids_models import load_ids_model
 from src.idsgan import IDSGAN
 
-# ---------------------------------------------------------------------------
 # CLI → internal attack-group name mapping
 # Keys match the --attack argument values; values match ATTACK_GROUPS keys.
-# ---------------------------------------------------------------------------
 _ATTACK_CLI_MAP: dict[str, list[str]] = {
     "dos":     ["DoS"],
     "u2r_r2l": ["U2R_R2L"],
@@ -103,9 +101,7 @@ def main() -> None:
     print(f"  Epochs        : {args.epochs}")
     print("=" * 60)
 
-    # ------------------------------------------------------------------
     # Data loading
-    # ------------------------------------------------------------------
     print("\nLoading and preprocessing data...")
     data = prepare_datasets()
 
@@ -126,9 +122,7 @@ def main() -> None:
     for k, v in attack_data_dict.items():
         print(f"  Attack data [{k:8s}]: {v.shape}")
 
-    # ------------------------------------------------------------------
     # Training loop
-    # ------------------------------------------------------------------
     for attack_group in attacks_to_train:
         if attack_group not in attack_data_dict:
             print(f"\nWARNING: No attack data found for '{attack_group}'. Skipping.")

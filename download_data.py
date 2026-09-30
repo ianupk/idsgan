@@ -20,9 +20,7 @@ import requests
 
 from src import config
 
-# ---------------------------------------------------------------------------
 # Remote URLs
-# ---------------------------------------------------------------------------
 _BASE = "https://raw.githubusercontent.com/jmnwong/NSL-KDD-Dataset/master"
 URLS: dict[str, str] = {
     "KDDTrain+.txt": f"{_BASE}/KDDTrain+.txt",

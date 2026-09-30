@@ -29,10 +29,7 @@ from src.idsgan import IDSGAN
 from src.metrics import detection_rate, evasion_increase_rate
 
 
-# ---------------------------------------------------------------------------
 # Helper – load a trained IDSGAN and run inference
-# ---------------------------------------------------------------------------
-
 def generate_adversarial(
     attack_data: np.ndarray,
     attack_category: str,
@@ -87,10 +84,7 @@ def generate_adversarial(
     return adv_data
 
 
-# ---------------------------------------------------------------------------
 # Plotting helpers
-# ---------------------------------------------------------------------------
-
 def _plot_figure2(results: dict) -> None:
     """Figure 2: original DR vs adversarial DR per IDS model."""
     sns.set_theme(style="whitegrid", font_scale=1.2)
@@ -189,18 +183,13 @@ def _plot_figure3(results: dict) -> None:
     print("  Saved Figure 3.")
 
 
-# ---------------------------------------------------------------------------
 # Main evaluation
-# ---------------------------------------------------------------------------
-
 def main() -> None:
     print("=" * 60)
     print("  IDSGAN Evaluation")
     print("=" * 60)
 
-    # ------------------------------------------------------------------
     # Data
-    # ------------------------------------------------------------------
     print("\nLoading preprocessed data...")
     data          = prepare_datasets()
     test_attack_X = data["test_attack_X"]
@@ -216,9 +205,7 @@ def main() -> None:
         if group_data:
             test_data_per_group[group_name] = np.concatenate(group_data, axis=0)
 
-    # ------------------------------------------------------------------
     # Table 2
-    # ------------------------------------------------------------------
     print("\n" + "=" * 60)
     print("  Table 2: IDSGAN Performance (DoS and U2R & R2L)")
     print("=" * 60)
@@ -293,9 +280,7 @@ def main() -> None:
         tablefmt="grid",
     ))
 
-    # ------------------------------------------------------------------
     # Figures
-    # ------------------------------------------------------------------
     if plot_results:
         print(f"\nGenerating figures → {config.FIGURES_DIR}")
         _plot_figure2(plot_results)

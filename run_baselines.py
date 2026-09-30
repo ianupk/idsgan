@@ -37,10 +37,7 @@ from src.idsgan import IDSGAN
 from src.metrics import detection_rate
 
 
-# ---------------------------------------------------------------------------
 # Surrogate PyTorch MLP
-# ---------------------------------------------------------------------------
-
 class SurrogateMLP(nn.Module):
     """Differentiable MLP that mimics the sklearn MLP IDS output."""
 
@@ -80,10 +77,7 @@ def train_surrogate(
     return model
 
 
-# ---------------------------------------------------------------------------
 # Restricted modification helper
-# ---------------------------------------------------------------------------
-
 def apply_restriction(
     adv_X:           np.ndarray,
     orig_X:          np.ndarray,
@@ -103,11 +97,7 @@ def apply_restriction(
 
     return np.clip(result, 0.0, 1.0)
 
-
-# ---------------------------------------------------------------------------
 # Adversarial attack implementations
-# ---------------------------------------------------------------------------
-
 def fgsm_attack(
     surrogate:       SurrogateMLP,
     X:               np.ndarray,
@@ -241,11 +231,7 @@ def cw_attack(
         adv_np = apply_restriction(adv_np, X, modifiable_mask)
     return np.clip(adv_np, 0.0, 1.0)
 
-
-# ---------------------------------------------------------------------------
 # Static GAN baselines
-# ---------------------------------------------------------------------------
-
 def static_gan_attack(
     X:               np.ndarray,
     modifiable_mask: np.ndarray,
@@ -267,18 +253,13 @@ def static_gan_attack(
     return np.clip(adv_X, 0.0, 1.0)
 
 
-# ---------------------------------------------------------------------------
 # Main
-# ---------------------------------------------------------------------------
-
 def main() -> None:
     print("=" * 70)
     print("  Table 3: Baseline Comparisons  (target IDS: MLP)")
     print("=" * 70)
 
-    # ------------------------------------------------------------------
     # Data
-    # ------------------------------------------------------------------
     print("\nLoading preprocessed data...")
     data          = prepare_datasets()
     test_attack_X = data["test_attack_X"]
@@ -295,9 +276,7 @@ def main() -> None:
     ids_model = load_ids_model(model_name, model_path)
     print(f"Loaded {model_name} IDS checkpoint.")
 
-    # ------------------------------------------------------------------
     # Per-group evaluation
-    # ------------------------------------------------------------------
     all_results: list[tuple[str, dict]] = []
 
     for group_name in ["DoS", "U2R_R2L"]:
@@ -388,9 +367,7 @@ def main() -> None:
             "IDSGAN":                  dr_idsgan,
         }))
 
-    # ------------------------------------------------------------------
     # Print Table 3
-    # ------------------------------------------------------------------
     if not all_results:
         print("\nNo results to display.")
         return
