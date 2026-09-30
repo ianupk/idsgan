@@ -40,10 +40,10 @@ def main() -> None:
     data = prepare_datasets()
 
     ids_train_X      = data["ids_train_X"]
-    ids_train_y      = data["ids_train_y"]
+    ids_train_y      = data["ids_train_y_bin"]
     test_X           = data["test_X"]
-    test_y           = data["test_y"]
-    test_categories  = data["test_categories"]
+    test_y           = data["test_y_bin"]
+    test_categories  = data["test_y_multi"]
 
     # Train each model
     overall_results: list[list] = []

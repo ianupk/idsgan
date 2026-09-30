@@ -138,6 +138,7 @@ def prepare_datasets():
         'encoder': encoder,
         'feature_names': np.array(feature_names)
     }
+    return data_dict
 
 def save_preprocessed(data_dict, path):
     """

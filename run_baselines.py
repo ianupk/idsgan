@@ -305,7 +305,7 @@ def main() -> None:
 
         # Train a surrogate MLP on the full test set
         print("    Training surrogate MLP...")
-        surrogate = train_surrogate(data["test_X"], data["test_y"].astype(np.float32))
+        surrogate = train_surrogate(data["test_X"], data["test_y_bin"].astype(np.float32))
 
         # Subsample for expensive per-sample attacks
         n_sub  = min(500, len(X_attack))
