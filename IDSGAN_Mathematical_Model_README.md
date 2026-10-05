@@ -200,7 +200,7 @@ The paper describes a generator consisting of five linear layers. ReLU is used a
 $$
 \mathbf{h}_1
 =
-\operatorname{ReLU}
+\text{ReLU}
 \left(
 W_1\mathbf{z}+\mathbf{b}_1
 \right)
@@ -211,7 +211,7 @@ $$
 $$
 \mathbf{h}_2
 =
-\operatorname{ReLU}
+\text{ReLU}
 \left(
 W_2\mathbf{h}_1+\mathbf{b}_2
 \right)
@@ -222,7 +222,7 @@ $$
 $$
 \mathbf{h}_3
 =
-\operatorname{ReLU}
+\text{ReLU}
 \left(
 W_3\mathbf{h}_2+\mathbf{b}_3
 \right)
@@ -233,7 +233,7 @@ $$
 $$
 \mathbf{h}_4
 =
-\operatorname{ReLU}
+\text{ReLU}
 \left(
 W_4\mathbf{h}_3+\mathbf{b}_4
 \right)
@@ -252,7 +252,7 @@ $$
 where:
 
 $$
-\operatorname{ReLU}(a)=\max(0,a)
+\text{ReLU}(a)=\max(0,a)
 $$
 
 Therefore the complete generator is:
@@ -284,7 +284,7 @@ $$
 \boxed{
 \tilde{x}_i
 =
-\operatorname{clip}(\tilde{x}_i,0,1)
+\text{clip}(\tilde{x}_i,0,1)
 }
 $$
 
@@ -294,7 +294,7 @@ $$
 \boxed{
 \tilde{\mathbf{x}}
 =
-\operatorname{clip}
+\text{clip}
 \left(
 \tilde{\mathbf{x}},0,1
 \right)
@@ -801,7 +801,7 @@ $$
 \boxed{
 \phi_{t+1}
 \leftarrow
-\operatorname{clip}
+\text{clip}
 (
 \phi_{t+1},
 -c,
@@ -957,7 +957,7 @@ $$
 \boxed{
 \phi
 \leftarrow
-\operatorname{clip}(\phi,-0.01,0.01)
+\text{clip}(\phi,-0.01,0.01)
 }
 $$
 
@@ -987,7 +987,7 @@ $$
 &\qquad \text{for }D\text{-steps:}\\
 &\qquad\qquad y_B=B(\mathbf{x}_{normal},\mathbf{x}_{adv})\\
 &\qquad\qquad \phi\leftarrow\text{RMSProp update}\\
-&\qquad\qquad \phi\leftarrow\operatorname{clip}(\phi,-0.01,0.01)\\
+&\qquad\qquad \phi\leftarrow\text{clip}(\phi,-0.01,0.01)\\
 &\\
 &\text{until convergence}
 \end{aligned}
@@ -1091,7 +1091,7 @@ $$
 \boxed{
 \phi_{t+1}
 =
-\operatorname{clip}
+\text{clip}
 (\phi_{t+1},-0.01,0.01)
 }
 $$
@@ -1260,7 +1260,7 @@ $$
 
 $$
 \phi\leftarrow
-\operatorname{clip}(\phi,-0.01,0.01)
+\text{clip}(\phi,-0.01,0.01)
 $$
 
 ### Feedback loop
