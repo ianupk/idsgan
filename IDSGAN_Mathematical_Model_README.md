@@ -14,17 +14,13 @@ An intrusion detection system classifies a traffic record as normal or malicious
 
 Let
 
-$$
-\mathbf{x} \in \mathbb{R}^{m}
-$$
+$$\mathbf{x} \in \mathbb{R}^{m}$$
 
 represent a preprocessed malicious traffic record.
 
 The objective of IDSGAN is to construct an adversarial record
 
-$$
-\mathbf{x}_{adv}
-$$
+$$\mathbf{x}_{adv}$$
 
 such that:
 
@@ -40,23 +36,11 @@ The paper uses the NSL-KDD dataset. The original dataset contains 41 features: 9
 
 IDSGAN contains three conceptual components:
 
-$$
-\boxed{
-\text{Generator }G_\theta
-}
-$$
+$$\boxed{\text{Generator }G_\theta}$$
 
-$$
-\boxed{
-\text{Black-box IDS }B
-}
-$$
+$$\boxed{\text{Black-box IDS }B}$$
 
-$$
-\boxed{
-\text{Discriminator / Surrogate }D_\phi
-}
-$$
+$$\boxed{\text{Discriminator / Surrogate }D_\phi}$$
 
 Their roles are:
 
@@ -98,17 +82,7 @@ The paper assumes that the internal architecture and parameters of $B$ are unkno
 
 The complete IDSGAN pipeline can be represented as:
 
-$$
-\boxed{
-\mathbf{x}
-\xrightarrow[\mathbf{n}]{G_\theta}
-\tilde{\mathbf{x}}
-\xrightarrow{\text{Restricted Modification}}
-\mathbf{x}_{adv}
-\xrightarrow{B}
-y_B
-}
-$$
+$$ \boxed{x \xrightarrow{G_\theta}_n \tilde{x} \xrightarrow{\text{Restricted Modification}} x_{adv} \xrightarrow{B} y_B} $$
 
 The discriminator observes the same traffic samples and learns the behavior of the black-box IDS:
 
@@ -156,38 +130,25 @@ $$
 
 Let:
 
-$$
-\mathbf{x}\in[0,1]^m
-$$
+$$\mathbf{x}\in[0,1]^m$$
 
 be the normalized malicious traffic record.
 
 The paper uses a noise vector:
 
-$$
-\mathbf{n}\sim U(0,1)^k
-$$
+$$\mathbf{n}\sim U(0,1)^k$$
 
 with:
 
-$$
-\boxed{k=9}
-$$
+$$\boxed{k=9}$$
 
 The generator input is the concatenation:
 
-$$
-\boxed{
-\mathbf{z}=
-[\mathbf{x};\mathbf{n}]
-}
-$$
+$$\boxed{\mathbf{z}=[\mathbf{x};\mathbf{n}]}$$
 
 Therefore:
 
-$$
-\mathbf{z}\in\mathbb{R}^{m+k}
-$$
+$$\mathbf{z}\in\mathbb{R}^{m+k}$$
 
 ---
 
@@ -197,80 +158,35 @@ The paper describes a generator consisting of five linear layers. ReLU is used a
 
 ### Layer 1
 
-$$
-\mathbf{h}_1
-=
-\text{ReLU}
-\left(
-W_1\mathbf{z}+\mathbf{b}_1
-\right)
-$$
+$$\mathbf{h}_1=\text{ReLU}\left(W_1\mathbf{z}+\mathbf{b}_1\right)$$
 
 ### Layer 2
 
-$$
-\mathbf{h}_2
-=
-\text{ReLU}
-\left(
-W_2\mathbf{h}_1+\mathbf{b}_2
-\right)
-$$
+$$\mathbf{h}_2=\text{ReLU}\left(W_2\mathbf{h}_1+\mathbf{b}_2\right)$$
 
 ### Layer 3
 
-$$
-\mathbf{h}_3
-=
-\text{ReLU}
-\left(
-W_3\mathbf{h}_2+\mathbf{b}_3
-\right)
-$$
+$$\mathbf{h}_3=\text{ReLU}\left(W_3\mathbf{h}_2+\mathbf{b}_3\right)$$
 
 ### Layer 4
 
-$$
-\mathbf{h}_4
-=
-\text{ReLU}
-\left(
-W_4\mathbf{h}_3+\mathbf{b}_4
-\right)
-$$
+$$\mathbf{h}_4=\text{ReLU}\left(W_4\mathbf{h}_3+\mathbf{b}_4\right)$$
 
 ### Output Layer
 
-$$
-\boxed{
-\tilde{\mathbf{x}}
-=
-W_5\mathbf{h}_4+\mathbf{b}_5
-}
-$$
+$$\boxed{\tilde{\mathbf{x}}=W_5\mathbf{h}_4+\mathbf{b}_5}$$
 
 where:
 
-$$
-\text{ReLU}(a)=\max(0,a)
-$$
+$$\text{ReLU}(a)=\max(0,a)$$
 
 Therefore the complete generator is:
 
-$$
-\boxed{
-\tilde{\mathbf{x}}
-=
-G_\theta(\mathbf{x},\mathbf{n})
-}
-$$
+$$\boxed{\tilde{\mathbf{x}}=G_\theta(\mathbf{x},\mathbf{n})}$$
 
 where:
 
-$$
-\theta=
-\{W_1,\mathbf{b}_1,\ldots,W_5,\mathbf{b}_5\}
-$$
+$$\theta=\{W_1,\mathbf{b}_1,\ldots,W_5,\mathbf{b}_5\}$$
 
 ---
 
@@ -280,26 +196,11 @@ The paper restricts generated feature values to the normalized range $[0,1]$.
 
 Therefore:
 
-$$
-\boxed{
-\tilde{x}_i
-=
-\text{clip}(\tilde{x}_i,0,1)
-}
-$$
+$$\boxed{\tilde{x}_i=\text{clip}(\tilde{x}_i,0,1)}$$
 
 or:
 
-$$
-\boxed{
-\tilde{\mathbf{x}}
-=
-\text{clip}
-\left(
-\tilde{\mathbf{x}},0,1
-\right)
-}
-$$
+$$\boxed{\tilde{\mathbf{x}}=\text{clip}\left(\tilde{\mathbf{x}},0,1\right)}$$
 
 For binary features, the paper uses a threshold of $0.5$:
 
@@ -321,65 +222,37 @@ Not every feature should be modified.
 
 Define a binary mask:
 
-$$
-\mathbf{M}\in\{0,1\}^{m}
-$$
+$$\mathbf{M}\in\{0,1\}^{m}$$
 
 where:
 
-$$
-M_i=
-\begin{cases}
-0,&\text{feature must remain unchanged}\\
-1,&\text{feature may be modified}
-\end{cases}
-$$
+$$M_i=\begin{cases}0,&\text{feature must remain unchanged}\\1,&\text{feature may be modified}\end{cases}$$
 
 The actual adversarial record is:
 
-$$
-\boxed{
-\mathbf{x}_{adv}
-=
-(\mathbf{1}-\mathbf{M})\odot\mathbf{x}
-+
-\mathbf{M}\odot\tilde{\mathbf{x}}
-}
-$$
+$$\boxed{\mathbf{x}_{adv}=(\mathbf{1}-\mathbf{M})\odot\mathbf{x}+\mathbf{M}\odot\tilde{\mathbf{x}}}$$
 
 where $\odot$ denotes element-wise multiplication.
 
 For a fixed feature:
 
-$$
-M_i=0
-$$
+$$M_i=0$$
 
 therefore:
 
-$$
-x_{adv,i}=x_i
-$$
+$$x_{adv,i}=x_i$$
 
 For a modifiable feature:
 
-$$
-M_i=1
-$$
+$$M_i=1$$
 
 therefore:
 
-$$
-x_{adv,i}=\tilde{x}_i
-$$
+$$x_{adv,i}=\tilde{x}_i$$
 
 Hence:
 
-$$
-\boxed{
-\text{Mask}=\text{constraint on which features can change}
-}
-$$
+$$\boxed{\text{Mask}=\text{constraint on which features can change}}$$
 
 The paper identifies functional feature groups for different attack categories and keeps those functional features unchanged.
 
@@ -389,41 +262,23 @@ The paper identifies functional feature groups for different attack categories a
 
 Let the target IDS be:
 
-$$
-\boxed{
-B:\mathbb{R}^{m}\rightarrow\mathcal{Y}
-}
-$$
+$$\boxed{B:\mathbb{R}^{m}\rightarrow\mathcal{Y}}$$
 
 where $\mathcal{Y}$ represents the IDS prediction.
 
 For example:
 
-$$
-B(\mathbf{x})=
-\begin{cases}
-0,&\text{normal}\\
-1,&\text{malicious}
-\end{cases}
-$$
+$$B(\mathbf{x})=\begin{cases}0,&\text{normal}\\1,&\text{malicious}\end{cases}$$
 
 The important assumption is that the attacker does not know the internal structure or parameters of $B$.
 
 Instead, it can query:
 
-$$
-\boxed{
-y_B=B(\mathbf{x})
-}
-$$
+$$\boxed{y_B=B(\mathbf{x})}$$
 
 For an adversarial sample:
 
-$$
-\boxed{
-y_{B,adv}=B(\mathbf{x}_{adv})
-}
-$$
+$$\boxed{y_{B,adv}=B(\mathbf{x}_{adv})}$$
 
 ---
 
@@ -433,33 +288,17 @@ The discriminator is trained to learn the behavior of the black-box IDS.
 
 Therefore:
 
-$$
-\boxed{
-D_\phi(\mathbf{x})\approx B(\mathbf{x})
-}
-$$
+$$\boxed{D_\phi(\mathbf{x})\approx B(\mathbf{x})}$$
 
 The black-box IDS provides the current predictions:
 
-$$
-y_B=B(\mathbf{x})
-$$
+$$y_B=B(\mathbf{x})$$
 
 These predictions are used as training information for $D_\phi$.
 
 Conceptually:
 
-$$
-\boxed{
-\text{Black-box IDS}
-\rightarrow
-\text{query}
-\rightarrow
-\text{prediction}
-\rightarrow
-D_\phi
-}
-$$
+$$\boxed{\text{Black-box IDS}\rightarrow\text{query}\rightarrow\text{prediction}\rightarrowD_\phi}$$
 
 The important point is that $D_\phi$ is differentiable, while the black-box IDS may not be differentiable.
 
@@ -469,39 +308,23 @@ The important point is that $D_\phi$ is differentiable, while the black-box IDS 
 
 Suppose:
 
-$$
-B=\text{Random Forest}
-$$
+$$B=\text{Random Forest}$$
 
 The generator is implemented using PyTorch.
 
 Directly calculating:
 
-$$
-\frac{\partial B}{\partial\theta}
-$$
+$$\frac{\partial B}{\partial\theta}$$
 
 is not generally available through the normal neural-network backpropagation path.
 
 Instead:
 
-$$
-\boxed{
-G_\theta
-\rightarrow
-\mathbf{x}_{adv}
-\rightarrow
-D_\phi
-\rightarrow
-L_G
-}
-$$
+$$\boxed{G_\theta\rightarrow\mathbf{x}_{adv}\rightarrowD_\phi\rightarrowL_G}$$
 
 allows us to calculate:
 
-$$
-\frac{\partial L_G}{\partial\theta}
-$$
+$$\frac{\partial L_G}{\partial\theta}$$
 
 using ordinary backpropagation.
 
@@ -513,44 +336,17 @@ Therefore $D_\phi$ acts as a differentiable approximation of the black-box IDS f
 
 The paper defines the generator loss as:
 
-$$
-\boxed{
-L_G
-=
-\mathbb{E}_{\mathbf{x}\in S_{attack},\mathbf{n}}
-\left[
-D_\phi
-\left(
-G_\theta(\mathbf{x},\mathbf{n})
-\right)
-\right]
-}
-$$
+$$\boxed{L_G=\mathbb{E}_{\mathbf{x}\in S_{attack},\mathbf{n}}\left[D_\phi\left(G_\theta(\mathbf{x},\mathbf{n})\right)\right]}$$
 
 with the restricted modification mechanism applied to the generated sample.
 
 In implementation form:
 
-$$
-\boxed{
-L_G
-=
-\mathbb{E}
-\left[
-D_\phi(\mathbf{x}_{adv})
-\right]
-}
-$$
+$$\boxed{L_G=\mathbb{E}\left[D_\phi(\mathbf{x}_{adv})\right]}$$
 
 The generator minimizes this objective:
 
-$$
-\boxed{
-\theta^*
-=
-\arg\min_\theta L_G
-}
-$$
+$$\boxed{\theta^*=\arg\min_\theta L_G}$$
 
 ---
 
@@ -560,59 +356,25 @@ The generator parameters are updated through the discriminator.
 
 Using the chain rule:
 
-$$
-\boxed{
-\frac{\partial L_G}{\partial\theta}
-=
-\frac{\partial L_G}{\partial D}
-\frac{\partial D}{\partial\mathbf{x}_{adv}}
-\frac{\partial\mathbf{x}_{adv}}
-{\partial G_\theta}
-\frac{\partial G_\theta}{\partial\theta}
-}
-$$
+$$\boxed{\frac{\partial L_G}{\partial\theta}=\frac{\partial L_G}{\partial D}\frac{\partial D}{\partial\mathbf{x}_{adv}}\frac{\partial\mathbf{x}_{adv}}{\partial G_\theta}\frac{\partial G_\theta}{\partial\theta}}$$
 
 Because:
 
-$$
-\mathbf{x}_{adv}
-=
-(\mathbf{1}-\mathbf{M})\odot\mathbf{x}
-+
-\mathbf{M}\odot G_\theta(\mathbf{x},\mathbf{n})
-$$
+$$\mathbf{x}_{adv}=(\mathbf{1}-\mathbf{M})\odot\mathbf{x}+\mathbf{M}\odot G_\theta(\mathbf{x},\mathbf{n})$$
 
 we obtain:
 
-$$
-\boxed{
-\frac{\partial\mathbf{x}_{adv}}
-{\partial G_\theta}
-=
-\mathbf{M}
-}
-$$
+$$\boxed{\frac{\partial\mathbf{x}_{adv}}{\partial G_\theta}=\mathbf{M}}$$
 
 Therefore:
 
-$$
-\boxed{
-\frac{\partial L_G}{\partial\theta}
-=
-\frac{\partial L_G}{\partial D}
-\frac{\partial D}{\partial\mathbf{x}_{adv}}
-\mathbf{M}
-\frac{\partial G_\theta}{\partial\theta}
-}
-$$
+$$\boxed{\frac{\partial L_G}{\partial\theta}=\frac{\partial L_G}{\partial D}\frac{\partial D}{\partial\mathbf{x}_{adv}}\mathbf{M}\frac{\partial G_\theta}{\partial\theta}}$$
 
 This shows mathematically how the modification mask controls the gradient flow.
 
 If:
 
-$$
-M_i=0
-$$
+$$M_i=0$$
 
 the corresponding feature receives no generator gradient through the modification path.
 
@@ -622,15 +384,7 @@ the corresponding feature receives no generator gradient through the modificatio
 
 The paper defines:
 
-$$
-\boxed{
-L_D
-=
-\mathbb{E}_{s\in B_{normal}}[D_\phi(s)]
--
-\mathbb{E}_{s\in B_{attack}}[D_\phi(s)]
-}
-$$
+$$\boxed{L_D=\mathbb{E}_{s\in B_{normal}}[D_\phi(s)]-\mathbb{E}_{s\in B_{attack}}[D_\phi(s)]}$$
 
 where the normal and adversarial traffic records are associated with predictions obtained from the black-box IDS.
 
@@ -640,15 +394,7 @@ The discriminator is optimized according to the WGAN-style formulation used by t
 
 The paper states the mathematical loss and says it uses RMSProp and discriminator weight clipping. When implementing with a framework optimizer that performs minimization, the equivalent sign convention is commonly written as:
 
-$$
-\boxed{
-L_D^{min}
-=
-\mathbb{E}[D_\phi(x_{adv})]
--
-\mathbb{E}[D_\phi(x_{normal})]
-}
-$$
+$$\boxed{L_D^{min}=\mathbb{E}[D_\phi(x_{adv})]-\mathbb{E}[D_\phi(x_{normal})]}$$
 
 The sign convention must be kept consistent with the optimizer.
 
@@ -658,11 +404,7 @@ The sign convention must be kept consistent with the optimizer.
 
 The paper uses **RMSProp** with learning rate:
 
-$$
-\boxed{
-\eta=0.0001
-}
-$$
+$$\boxed{\eta=0.0001}$$
 
 for both generator and discriminator.
 
@@ -674,22 +416,11 @@ The following gives the mathematical weight-update mechanism.
 
 At iteration $t$:
 
-$$
-\boxed{
-g_{\theta,t}
-=
-\nabla_\theta L_G
-}
-$$
+$$\boxed{g_{\theta,t}=\nabla_\theta L_G}$$
 
 For each generator parameter $\theta_i$:
 
-$$
-g_{\theta_i,t}
-=
-\frac{\partial L_G}
-{\partial\theta_i}
-$$
+$$g_{\theta_i,t}=\frac{\partial L_G}{\partial\theta_i}$$
 
 ---
 
@@ -697,16 +428,7 @@ $$
 
 Maintain a moving average of squared gradients:
 
-$$
-\boxed{
-v_{\theta,t}
-=
-\rho v_{\theta,t-1}
-+
-(1-\rho)
-g_{\theta,t}^{\,2}
-}
-$$
+$$\boxed{v_{\theta,t}=\rho v_{\theta,t-1}+(1-\rho)g_{\theta,t}^{\,2}}$$
 
 where the square is element-wise.
 
@@ -716,31 +438,11 @@ where the square is element-wise.
 
 The RMSProp update is:
 
-$$
-\boxed{
-\theta_{t+1}
-=
-\theta_t
--
-\eta
-\frac{g_{\theta,t}}
-{\sqrt{v_{\theta,t}}+\epsilon}
-}
-$$
+$$\boxed{\theta_{t+1}=\theta_t-\eta\frac{g_{\theta,t}}{\sqrt{v_{\theta,t}}+\epsilon}}$$
 
 Therefore:
 
-$$
-\boxed{
-\text{Generator}
-\rightarrow
-\text{gradient}
-\rightarrow
-\text{RMSProp}
-\rightarrow
-\text{new generator weights}
-}
-$$
+$$\boxed{\text{Generator}\rightarrow\text{gradient}\rightarrow\text{RMSProp}\rightarrow\text{new generator weights}}$$
 
 ---
 
@@ -748,40 +450,15 @@ $$
 
 Calculate the discriminator gradient:
 
-$$
-\boxed{
-g_{\phi,t}
-=
-\nabla_\phi L_D
-}
-$$
+$$\boxed{g_{\phi,t}=\nabla_\phi L_D}$$
 
 Maintain its squared-gradient moving average:
 
-$$
-\boxed{
-v_{\phi,t}
-=
-\rho v_{\phi,t-1}
-+
-(1-\rho)
-g_{\phi,t}^{\,2}
-}
-$$
+$$\boxed{v_{\phi,t}=\rho v_{\phi,t-1}+(1-\rho)g_{\phi,t}^{\,2}}$$
 
 Then:
 
-$$
-\boxed{
-\phi_{t+1}
-=
-\phi_t
--
-\eta
-\frac{g_{\phi,t}}
-{\sqrt{v_{\phi,t}}+\epsilon}
-}
-$$
+$$\boxed{\phi_{t+1}=\phi_t-\eta\frac{g_{\phi,t}}{\sqrt{v_{\phi,t}}+\epsilon}}$$
 
 ---
 
@@ -789,35 +466,15 @@ $$
 
 The paper uses a weight clipping threshold:
 
-$$
-\boxed{
-c=0.01
-}
-$$
+$$\boxed{c=0.01}$$
 
 After updating discriminator parameters:
 
-$$
-\boxed{
-\phi_{t+1}
-\leftarrow
-\text{clip}
-(
-\phi_{t+1},
--c,
-c
-)
-}
-$$
+$$\boxed{\phi_{t+1}\leftarrow\text{clip}(\phi_{t+1},-c,c)}$$
 
 Therefore:
 
-$$
-\boxed{
-\phi_{t+1}
-\in[-0.01,0.01]
-}
-$$
+$$\boxed{\phi_{t+1}\in[-0.01,0.01]}$$
 
 This is part of the WGAN-style implementation described by the paper.
 
@@ -827,67 +484,29 @@ This is part of the WGAN-style implementation described by the paper.
 
 The complete path is:
 
-$$
-\mathbf{x}
-\rightarrow
-G_\theta
-\rightarrow
-\mathbf{x}_{adv}
-\rightarrow
-D_\phi
-\rightarrow
-L_G
-$$
+$$\mathbf{x}\rightarrowG_\theta\rightarrow\mathbf{x}_{adv}\rightarrowD_\phi\rightarrowL_G$$
 
 Therefore:
 
 ### Forward
 
-$$
-\mathbf{x}_{adv}
-=
-(\mathbf{1}-\mathbf{M})\odot\mathbf{x}
-+
-\mathbf{M}\odot G_\theta(\mathbf{x},\mathbf{n})
-$$
+$$\mathbf{x}_{adv}=(\mathbf{1}-\mathbf{M})\odot\mathbf{x}+\mathbf{M}\odot G_\theta(\mathbf{x},\mathbf{n})$$
 
 ### Loss
 
-$$
-L_G=D_\phi(\mathbf{x}_{adv})
-$$
+$$L_G=D_\phi(\mathbf{x}_{adv})$$
 
 ### Gradient
 
-$$
-g_{\theta}
-=
-\nabla_\theta L_G
-$$
+$$g_{\theta}=\nabla_\theta L_G$$
 
 ### RMSProp
 
-$$
-v_{\theta}
-=
-\rho v_{\theta}
-+
-(1-\rho)g_{\theta}^2
-$$
+$$v_{\theta}=\rho v_{\theta}+(1-\rho)g_{\theta}^2$$
 
 ### Update
 
-$$
-\boxed{
-\theta
-\leftarrow
-\theta
--
-\eta
-\frac{g_{\theta}}
-{\sqrt{v_{\theta}}+\epsilon}
-}
-$$
+$$\boxed{\theta\leftarrow\theta-\eta\frac{g_{\theta}}{\sqrt{v_{\theta}}+\epsilon}}$$
 
 ---
 
@@ -897,69 +516,33 @@ The discriminator receives normal and adversarial samples.
 
 ### Forward
 
-$$
-D_\phi(x_{normal})
-$$
+$$D_\phi(x_{normal})$$
 
 and:
 
-$$
-D_\phi(x_{adv})
-$$
+$$D_\phi(x_{adv})$$
 
 ### Loss
 
 Using the minimization form:
 
-$$
-L_D^{min}
-=
-E[D_\phi(x_{adv})]
--
-E[D_\phi(x_{normal})]
-$$
+$$L_D^{min}=E[D_\phi(x_{adv})]-E[D_\phi(x_{normal})]$$
 
 ### Gradient
 
-$$
-g_\phi
-=
-\nabla_\phi L_D^{min}
-$$
+$$g_\phi=\nabla_\phi L_D^{min}$$
 
 ### RMSProp accumulator
 
-$$
-v_\phi
-=
-\rho v_\phi
-+
-(1-\rho)g_\phi^2
-$$
+$$v_\phi=\rho v_\phi+(1-\rho)g_\phi^2$$
 
 ### Weight update
 
-$$
-\boxed{
-\phi
-\leftarrow
-\phi
--
-\eta
-\frac{g_\phi}
-{\sqrt{v_\phi}+\epsilon}
-}
-$$
+$$\boxed{\phi\leftarrow\phi-\eta\frac{g_\phi}{\sqrt{v_\phi}+\epsilon}}$$
 
 ### Clip
 
-$$
-\boxed{
-\phi
-\leftarrow
-\text{clip}(\phi,-0.01,0.01)
-}
-$$
+$$\boxed{\phi\leftarrow\text{clip}(\phi,-0.01,0.01)}$$
 
 ---
 
@@ -1002,105 +585,33 @@ This corresponds to Algorithm 1 in the paper.
 
 The entire model can be summarized as:
 
-$$
-\boxed{
-\begin{aligned}
-\mathbf n&\sim U(0,1)^9\\
-\tilde{\mathbf x}
-&=
-G_\theta(\mathbf x,\mathbf n)\\
-\mathbf x_{adv}
-&=
-(\mathbf 1-\mathbf M)\odot\mathbf x
-+
-\mathbf M\odot\tilde{\mathbf x}\\
-y_B
-&=
-B(\mathbf x_{adv})\\
-D_\phi(\mathbf x_{adv})
-&\approx
-B(\mathbf x_{adv})
-\end{aligned}
-}
-$$
+$$\boxed{\begin{aligned}\mathbf n&\sim U(0,1)^9\\\tilde{\mathbf x}&=G_\theta(\mathbf x,\mathbf n)\\\mathbf x_{adv}&=(\mathbf 1-\mathbf M)\odot\mathbf x+\mathbf M\odot\tilde{\mathbf x}\\y_B&=B(\mathbf x_{adv})\\D_\phi(\mathbf x_{adv})&\approxB(\mathbf x_{adv})\end{aligned}}$$
 
 Generator objective:
 
-$$
-\boxed{
-\theta^*
-=
-\arg\min_\theta
-E[D_\phi(\mathbf x_{adv})]
-}
-$$
+$$\boxed{\theta^*=\arg\min_\thetaE[D_\phi(\mathbf x_{adv})]}$$
 
 Discriminator objective in the paper's WGAN-style notation:
 
-$$
-\boxed{
-L_D
-=
-E[D_\phi(x_{normal})]
--
-E[D_\phi(x_{attack})]
-}
-$$
+$$\boxed{L_D=E[D_\phi(x_{normal})]-E[D_\phi(x_{attack})]}$$
 
 Weight updates:
 
-$$
-\boxed{
-\theta_{t+1}
-=
-\theta_t
--
-\eta
-\frac{\nabla_\theta L_G}
-{\sqrt{v_{\theta,t}}+\epsilon}
-}
-$$
+$$\boxed{\theta_{t+1}=\theta_t-\eta\frac{\nabla_\theta L_G}{\sqrt{v_{\theta,t}}+\epsilon}}$$
 
-$$
-\boxed{
-v_{\theta,t}
-=
-\rho v_{\theta,t-1}
-+
-(1-\rho)(\nabla_\theta L_G)^2
-}
-$$
+$$\boxed{v_{\theta,t}=\rho v_{\theta,t-1}+(1-\rho)(\nabla_\theta L_G)^2}$$
 
 and:
 
-$$
-\boxed{
-\phi_{t+1}
-=
-\phi_t
--
-\eta
-\frac{\nabla_\phi L_D^{min}}
-{\sqrt{v_{\phi,t}}+\epsilon}
-}
-$$
+$$\boxed{\phi_{t+1}=\phi_t-\eta\frac{\nabla_\phi L_D^{min}}{\sqrt{v_{\phi,t}}+\epsilon}}$$
 
 followed by:
 
-$$
-\boxed{
-\phi_{t+1}
-=
-\text{clip}
-(\phi_{t+1},-0.01,0.01)
-}
-$$
+$$\boxed{\phi_{t+1}=\text{clip}(\phi_{t+1},-0.01,0.01)}$$
 
 with:
 
-$$
-\boxed{\eta=10^{-4}}
-$$
+$$\boxed{\eta=10^{-4}}$$
 
 ---
 
@@ -1188,94 +699,47 @@ The simplest way to explain the mathematical model is:
 
 ### Input
 
-$$
-x=\text{malicious traffic}
-$$
+$$x=\text{malicious traffic}$$
 
 ### Generator
 
-$$
-\tilde{x}=G_\theta(x,n)
-$$
+$$\tilde{x}=G_\theta(x,n)$$
 
 ### Feature restriction
 
-$$
-x_{adv}
-=
-(1-M)x+M\tilde{x}
-$$
+$$x_{adv}=(1-M)x+M\tilde{x}$$
 
 ### Black-box IDS
 
-$$
-y=B(x_{adv})
-$$
+$$y=B(x_{adv})$$
 
 ### Surrogate discriminator
 
-$$
-D_\phi(x_{adv})\approx B(x_{adv})
-$$
+$$D_\phi(x_{adv})\approx B(x_{adv})$$
 
 ### Generator loss
 
-$$
-L_G=E[D_\phi(x_{adv})]
-$$
+$$L_G=E[D_\phi(x_{adv})]$$
 
 ### Generator update
 
-$$
-\theta
-\leftarrow
-\theta-
-\eta
-\frac{\nabla_\theta L_G}
-{\sqrt{v_\theta}+\epsilon}
-$$
+$$\theta\leftarrow\theta-\eta\frac{\nabla_\theta L_G}{\sqrt{v_\theta}+\epsilon}$$
 
 ### Discriminator loss
 
-$$
-L_D
-=
-E[D(x_{normal})]
--
-E[D(x_{adv})]
-$$
+$$L_D=E[D(x_{normal})]-E[D(x_{adv})]$$
 
 ### Discriminator update
 
-$$
-\phi
-\leftarrow
-\phi-
-\eta
-\frac{\nabla_\phi L_D}
-{\sqrt{v_\phi}+\epsilon}
-$$
+$$\phi\leftarrow\phi-\eta\frac{\nabla_\phi L_D}{\sqrt{v_\phi}+\epsilon}$$
 
 ### Weight clipping
 
-$$
-\phi\leftarrow
-\text{clip}(\phi,-0.01,0.01)
-$$
+$$\phi\leftarrow\text{clip}(\phi,-0.01,0.01)$$
 
 ### Feedback loop
 
-$$
-\boxed{
-B
-\rightarrow
-D
-\rightarrow
-G
-\rightarrow
-B
-}
-$$
+$$\boxed{B\rightarrowD\rightarrowG\rightarrowB}$$
 
 That is the core mathematical idea of IDSGAN.
 
@@ -1285,15 +749,7 @@ That is the core mathematical idea of IDSGAN.
 
 The entire model can be understood as a three-player-style interaction:
 
-$$
-\boxed{
-\text{Generator}
-\quad\longleftrightarrow\quad
-\text{Surrogate IDS}
-\quad\longleftrightarrow\quad
-\text{Black-box IDS}
-}
-$$
+$$\boxed{\text{Generator}\quad\longleftrightarrow\quad\text{Surrogate IDS}\quad\longleftrightarrow\quad\text{Black-box IDS}}$$
 
 The **black-box IDS** gives predictions.
 
@@ -1305,16 +761,6 @@ The **feature mask** prevents arbitrary modification of attack-functional featur
 
 Thus:
 
-$$
-\boxed{
-\text{Query black-box}
-\rightarrow
-\text{learn surrogate}
-\rightarrow
-\text{backpropagate}
-\rightarrow
-\text{update generator}
-}
-$$
+$$\boxed{\text{Query black-box}\rightarrow\text{learn surrogate}\rightarrow\text{backpropagate}\rightarrow\text{update generator}}$$
 
 This is the mathematical mechanism that makes IDSGAN a **black-box adversarial example generation framework** rather than a normal GAN.
